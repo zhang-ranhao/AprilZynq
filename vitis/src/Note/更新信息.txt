@@ -1,0 +1,5 @@
+2023年5月3日
+	完成了重构算法的调试工作，但是犯了一个比较低级的错误，在调试过程中，将本该是一个u32寄存器的值定义成了u8，导致调试一直失败。
+	
+#define FILE_NAME_LENGTH 8
+#define FILE_PATH_LENGTH 11    //以byte为单位
