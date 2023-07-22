@@ -1,6 +1,5 @@
 # AprilZynq
 ## 1. 项目简介
-AprilTag是一种视觉基准系统，可用于增强现实，机器人定位和相机标定等领域，具体内容可参考[AprilTag](https://april.eecs.umich.edu/software/apriltag)
-针对AprilTag视觉定位算法在诸如STM32等单片机上运行速度不够快，无法满足实时性要求的问题，采用ZYNQ
-这是一个链接 [新浪新闻](https://news.sina.com.cn/)
-<https://news.sina.com.cn/>
+本课题来源于本人研究生一年级所完成的项目：[陆空两栖可重构机器人“比翼鸟”](https://www.bilibili.com/video/BV1ch4y1E77Y)
+[AprilTag](https://april.eecs.umich.edu/software/apriltag)是一种视觉基准系统，可用于增强现实，机器人定位和相机标定等领域，但这一视觉定位算法在诸如[OpenMV4](https://openmv.io/)等单片机上的运行速度不够快，在分辨率为QVGA时（320×240）时，其数据更新频率仅有8Hz，当我们
+
