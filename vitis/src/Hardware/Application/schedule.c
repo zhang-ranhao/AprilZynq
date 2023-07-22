@@ -17,6 +17,7 @@
 /*				Include File Definitions						*/
 /* ------------------------------------------------------------ */
 #include "schedule.h"
+#include "../common/state_machine/fsm_control.h"
 /* ------------------------------------------------------------ */
 /*				Miscellaneous Definations						*/
 /* ------------------------------------------------------------ */
@@ -47,7 +48,7 @@ static void Loop_100Hz(void)	//10ms
 }
 static void Loop_50Hz(void)	//20ms
 {
-
+	fsm_control();
 }
 static void Loop_20Hz(void)	//50ms
 {

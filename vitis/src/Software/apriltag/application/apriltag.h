@@ -227,6 +227,7 @@ extern apriltag_detector_t td;
 extern quick_decode_t qd;
 extern u8 apriltag_flag;
 extern u8 debug_flag;
+extern u8 quads_raw_buf[FRAME_SIZE];
 /* ------------------------------------------------------------ */
 /*				Procedure Declarations							*/
 /* ------------------------------------------------------------ */

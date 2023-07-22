@@ -21,6 +21,9 @@
 #include "apriltag_quad_thresh.h"
 #include "../common/math_util.h"
 #include <math.h>
+#include "../../../Hardware/common/state_machine/action.h"
+#include "../../../Hardware/common/state_machine/fsm_control.h"
+
 /* ------------------------------------------------------------ */
 /*				Miscellaneous Definations						*/
 /* ------------------------------------------------------------ */
@@ -28,7 +31,8 @@
 /* ------------------------------------------------------------ */
 /*				Global Variables Definations					*/
 /* ------------------------------------------------------------ */
-
+u8 simu_buf[FRAME_SIZE] __attribute__ ((aligned(256)));
+uint32_t colors[VIDEO_COLUMNS/2 * VIDEO_ROWS/2] __attribute__ ((aligned(256)));
 /* ------------------------------------------------------------ */
 /*				Procedure Definations							*/
 /* -------------------------------------------------------------*/
@@ -1214,6 +1218,106 @@ zarray_t *apriltag_quad_thresh(apriltag_detector_t *td, image_u8_t *im, timeprof
     zarray_t* quads = fit_quads(td, w, h, clusters, im);
 
     timeprofile_stamp(tp, "fit quads to clusters");
+
+    //要进行四副图像的拼接，左上角预处理图像，右上角阈值分割后的图像，左下角连通域查找，右下角边缘分割
+    if (stFsm.stCurState == EDGE_SEGMENTATION)
+    {
+    	//清除上一幅图像留下的
+    	memset(colors, 0, VIDEO_COLUMNS/2 * VIDEO_ROWS/2 * sizeof(u32));
+
+    	//step1.填充预处理图像
+    	for (int y = 0; y < h; y++) {
+    		for (int x = 0; x < w; x++) {
+    			simu_buf[y*2*w*4 + 4*x + 0] = im->buf[y*im->width + x];
+    			simu_buf[y*2*w*4 + 4*x + 1] = im->buf[y*im->width + x];
+    			simu_buf[y*2*w*4 + 4*x + 2] = im->buf[y*im->width + x];
+    		}
+    	}
+
+    	//step2.填充自适应阈值分割图像
+    	for (int y = 0; y < h; y++) {
+    		for (int x = 0; x < w; x++) {
+    			simu_buf[y*2*w*4 + 4*(x+w) + 0] = threshim->buf[y*threshim->stride + x];
+    			simu_buf[y*2*w*4 + 4*(x+w) + 1] = threshim->buf[y*threshim->stride + x];
+    			simu_buf[y*2*w*4 + 4*(x+w) + 2] = threshim->buf[y*threshim->stride + x];
+    		}
+    	}
+
+
+    	//step3.填充连通域图像
+
+    	for (int y = 0; y < h; y++) {
+    		for (int x = 0; x < w; x++) {
+
+    			simu_buf[(y+h)*2*w*4 + 4*x + 0] = 0;
+    			simu_buf[(y+h)*2*w*4 + 4*x + 1] = 0;
+    			simu_buf[(y+h)*2*w*4 + 4*x + 2] = 0;
+
+    			uint32_t v = unionfind_get_representative(uf, y*w+x);
+
+
+                if (unionfind_get_set_size(uf, v) < td->qtp.min_cluster_pixels)
+                    continue;
+                u32 color = colors[v];
+                u8 	r = color >> 16,
+                    g = color >> 8,
+                    b = color;
+
+                if (color == 0) {
+                    const int bias = 50;
+                    r = bias + (random() % (200-bias));
+                    g = bias + (random() % (200-bias));
+                    b = bias + (random() % (200-bias));
+                    colors[v] = (r << 16) | (g << 8) | b;
+                }
+
+    			simu_buf[(y+h)*2*w*4 + 4*x + 0] = r;
+    			simu_buf[(y+h)*2*w*4 + 4*x + 1] = g;
+    			simu_buf[(y+h)*2*w*4 + 4*x + 2] = b;
+    		}
+    	}
+
+    	//step4 边缘分割图像
+
+    	for (int y = 0; y < h; y++) {
+    		for (int x = 0; x < w; x++) {
+				 simu_buf[(y+h)*2*w*4 + 4*(x+w) + 0] = 0;
+				 simu_buf[(y+h)*2*w*4 + 4*(x+w) + 1] = 0;
+				 simu_buf[(y+h)*2*w*4 + 4*(x+w) + 2] = 0;
+    		}
+    	}
+
+		 for (int i = 0; i < zarray_size(clusters); i++) {
+			 zarray_t *cluster;
+			 zarray_get(clusters, i, &cluster);
+
+			 uint32_t r, g, b;
+
+			 if (1) {
+				 const int bias = 50;
+				 r = bias + (random() % (200-bias));
+				 g = bias + (random() % (200-bias));
+				 b = bias + (random() % (200-bias));
+			 }
+
+			 for (int j = 0; j < zarray_size(cluster); j++) {
+				 struct pt *p;
+				 zarray_get_volatile(cluster, j, &p);
+
+				 int x = p->x / 2;
+				 int y = p->y / 2;
+
+				 simu_buf[(y+h)*2*w*4 + 4*(x+w) + 0] = r;
+				 simu_buf[(y+h)*2*w*4 + 4*(x+w) + 1] = g;
+				 simu_buf[(y+h)*2*w*4 + 4*(x+w) + 2] = b;
+			 }
+		 }
+
+		FrameBuffer.Address = (INTPTR)simu_buf;
+		XDpDma_DisplayGfxFrameBuffer(RunCfg.DpDmaPtr, &FrameBuffer);
+    }
+
+    timeprofile_stamp(tp, "edge_segmentation_display");
 
     for (int i = 0; i < zarray_size(clusters); i++) {
         zarray_t *cluster;

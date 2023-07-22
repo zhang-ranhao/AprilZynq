@@ -270,7 +270,7 @@ matd_t *matd_multiply(const matd_t *a, const matd_t *b);
 
 
 #define MATD_SVD_NO_WARNINGS 1
-    matd_svd_t matd_svd_flags(matd_t *A, int flags);
+matd_svd_t matd_svd_flags(matd_t *A, int flags);
 
 
 

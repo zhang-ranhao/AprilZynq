@@ -25,6 +25,7 @@
 #include "..\common\math_util.h"
 #include "..\common\homography.h"
 #include "..\common\zarray.h"
+#include "..\..\..\Hardware\common\state_machine\fsm_control.h"
 /* ------------------------------------------------------------ */
 /*				Miscellaneous Definations						*/
 /* ------------------------------------------------------------ */
@@ -53,6 +54,8 @@ quick_decode_t qd;
 u8 apriltag_flag;
 u8 debug_flag;
 static u8 im_color_buf[FRAME_SIZE] __attribute__ ((aligned(256)));
+
+u8 quads_raw_buf[FRAME_SIZE] __attribute__ ((aligned(256)));
 
 /* ------------------------------------------------------------ */
 /*				Procedure Definations							*/
@@ -957,6 +960,48 @@ zarray_t * apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig
     }
 
 
+    if (stFsm.stCurState == QUADS_RAW)
+    {
+        image_u8_t *im_quads = image_u8_copy(im_orig);
+        image_u8_darken(im_quads);
+        image_u8_darken(im_quads);
+
+        //画线
+        for (int i = 0; i < zarray_size(quads); i++) {
+            struct quad *quad;
+            zarray_get_volatile(quads, i, &quad);
+
+            const int bias = 100;
+            int color = bias + (random() % (255-bias));
+
+            image_u8_draw_line(im_quads, quad->p[0][0], quad->p[0][1], quad->p[1][0], quad->p[1][1], color, 1);
+            image_u8_draw_line(im_quads, quad->p[1][0], quad->p[1][1], quad->p[2][0], quad->p[2][1], color, 1);
+            image_u8_draw_line(im_quads, quad->p[2][0], quad->p[2][1], quad->p[3][0], quad->p[3][1], color, 1);
+            image_u8_draw_line(im_quads, quad->p[3][0], quad->p[3][1], quad->p[0][0], quad->p[0][1], color, 1);
+        }
+
+        //填充图像
+    	for (int y = 0; y < im_orig->height; y++) {
+    		for (int x = 0; x < im_orig->width; x++) {
+    			simu_buf[y*im_orig->width*4 + 4*x + 0] = im_quads->buf[y*im_orig->width + x];
+    			simu_buf[y*im_orig->width*4 + 4*x + 1] = im_quads->buf[y*im_orig->width + x];
+    			simu_buf[y*im_orig->width*4 + 4*x + 2] = im_quads->buf[y*im_orig->width + x];
+    		}
+    	}
+    	image_u8_destroy(im_quads);
+
+		FrameBuffer.Address = (INTPTR)simu_buf;
+		XDpDma_DisplayGfxFrameBuffer(RunCfg.DpDmaPtr, &FrameBuffer);
+    }
+
+    timeprofile_stamp(tp, "quads_raw_display");
+
+
+
+
+
+
+
     if (debug_flag == 1)
     {
     	XGpioPs_WritePin(&Gpio, GPIO_LED2_PIN, 1); //turn off the LED
@@ -964,7 +1009,7 @@ zarray_t * apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig
 
     ////////////////////////////////////////////////////////////////
     // Step 2. Decode tags from each quad.
-    image_u8_t *im_samples = debug_flag ? image_u8_copy(im_orig) : NULL;
+    image_u8_t *im_samples = (debug_flag || stFsm.stCurState == SAMPLES) ? image_u8_copy(im_orig) : NULL;
 
     zarray_t *detections = zarray_create(sizeof(apriltag_detection_t*));
 
@@ -972,11 +1017,67 @@ zarray_t * apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig
 
     timeprofile_stamp(tp, "decode+refinement");
 
-    //采样图像
-    if (im_samples != NULL) {
+    if (stFsm.stCurState == EDGE_REFINEMENT)
+    {
+        image_u8_t *im_quads = image_u8_copy(im_orig);
+        image_u8_darken(im_quads);
+        image_u8_darken(im_quads);
+
+        //画线
+        for (int i = 0; i < zarray_size(quads); i++) {
+            struct quad *quad;
+            zarray_get_volatile(quads, i, &quad);
+
+            const int bias = 100;
+            int color = bias + (random() % (255-bias));
+
+            image_u8_draw_line(im_quads, quad->p[0][0], quad->p[0][1], quad->p[1][0], quad->p[1][1], color, 1);
+            image_u8_draw_line(im_quads, quad->p[1][0], quad->p[1][1], quad->p[2][0], quad->p[2][1], color, 1);
+            image_u8_draw_line(im_quads, quad->p[2][0], quad->p[2][1], quad->p[3][0], quad->p[3][1], color, 1);
+            image_u8_draw_line(im_quads, quad->p[3][0], quad->p[3][1], quad->p[0][0], quad->p[0][1], color, 1);
+        }
+
+        //填充图像
+    	for (int y = 0; y < im_orig->height; y++) {
+    		for (int x = 0; x < im_orig->width; x++) {
+    			simu_buf[y*im_orig->width*4 + 4*x + 0] = im_quads->buf[y*im_orig->width + x];
+    			simu_buf[y*im_orig->width*4 + 4*x + 1] = im_quads->buf[y*im_orig->width + x];
+    			simu_buf[y*im_orig->width*4 + 4*x + 2] = im_quads->buf[y*im_orig->width + x];
+    		}
+    	}
+    	image_u8_destroy(im_quads);
+
+		FrameBuffer.Address = (INTPTR)simu_buf;
+		XDpDma_DisplayGfxFrameBuffer(RunCfg.DpDmaPtr, &FrameBuffer);
+    }
+
+
+    timeprofile_stamp(tp, "edge_refinement_display");
+
+    if (stFsm.stCurState == SAMPLES)
+    {
+    	for (int y = 0; y < im_orig->height; y++) {
+    		for (int x = 0; x < im_orig->width; x++) {
+    			simu_buf[y*im_orig->width*4 + 4*x + 0] = im_samples->buf[y*im_orig->width + x];
+    			simu_buf[y*im_orig->width*4 + 4*x + 1] = im_samples->buf[y*im_orig->width + x];
+    			simu_buf[y*im_orig->width*4 + 4*x + 2] = im_samples->buf[y*im_orig->width + x];
+    		}
+    	}
+
+		FrameBuffer.Address = (INTPTR)simu_buf;
+		XDpDma_DisplayGfxFrameBuffer(RunCfg.DpDmaPtr, &FrameBuffer);
+
+		image_u8_destroy(im_samples);
+    }
+
+    timeprofile_stamp(tp, "samples_display");
+
+
+    if (debug_flag) {
     	image_u8_write_pnm("1:/samples.pnm", im_samples, &fil);
         image_u8_destroy(im_samples);
     }
+
 
     //经过修正后的四边形
     if (debug_flag == 1) {
@@ -1005,7 +1106,6 @@ zarray_t * apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig
 
     ////////////////////////////////////////////////////////////////
     // Produce final debug output
-
     if (debug_flag == 1) {
 
         image_u8_t *darker = image_u8_copy(im_orig);
@@ -1035,7 +1135,7 @@ zarray_t * apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig
     }
 
 
-
+    //在AprilTag标签边缘划线
     if (debug_flag == 1) {
         image_u8_t *darker = image_u8_copy(im_orig);
         image_u8_darken(darker);
@@ -1074,8 +1174,70 @@ zarray_t * apriltag_detector_detect(apriltag_detector_t *td, image_u8_t *im_orig
 
         bmp_write("1:/output.bmp", (char *)&BMODE_1280x720, (char *)out->buf, 1280*4, &fil);
         image_u8x4_destroy(out);
-        printf("size1 is %d\n", zarray_size(detections));
     }
+
+    if (stFsm.stCurState == OUTPUT)
+    {
+
+        image_u8_t *darker = image_u8_copy(im_orig);
+        image_u8_darken(darker);
+        image_u8_darken(darker);
+
+        for (int y = 0; y < im_orig->height; y++) {
+             for (int x = 0; x < im_orig->width; x++) {
+     			simu_buf[y*im_orig->width*4 + 4*x + 0] = darker->buf[y*im_orig->width + x];
+     			simu_buf[y*im_orig->width*4 + 4*x + 1] = darker->buf[y*im_orig->width + x];
+     			simu_buf[y*im_orig->width*4 + 4*x + 2] = darker->buf[y*im_orig->width + x];
+             }
+         }
+
+        image_u8_destroy(darker);
+
+
+        for (int i = 0; i < zarray_size(detections); i++) {
+            apriltag_detection_t *det;
+            zarray_get(detections, i, &det);
+
+            float rgb[3];
+            int bias = 100;
+
+            for (int j = 0; j < 3; j++) {
+                rgb[j] = bias + (random() % (255-bias));
+            }
+
+            for (int j = 0; j < 4; j++) {
+                int k = (j + 1) & 3;
+
+                double x0 = det->p[j][0];
+                double y0 = det->p[j][1];
+                double x1 = det->p[k][0];
+                double y1 = det->p[k][1];
+
+
+                double dist = sqrtf((y1-y0)*(y1-y0) + (x1-x0)*(x1-x0));
+                double delta = 1 / dist;
+
+                // terrible line drawing code
+                for (float f = 0; f <= 1; f += delta) {
+                    int x = ((int) (x1 + (x0 - x1) * f));
+                    int y = ((int) (y1 + (y0 - y1) * f));
+
+                    if (x < 0 || y < 0 || x >= im_orig->width || y >= im_orig->height)
+                        continue;
+
+                    int idx = y*im_orig->width*4 + 4*x;
+                    for (int i = 0; i < 3; i++)
+                        simu_buf[idx + i] = rgb[i];
+                }
+            }
+        }
+
+		FrameBuffer.Address = (INTPTR)simu_buf;
+		XDpDma_DisplayGfxFrameBuffer(RunCfg.DpDmaPtr, &FrameBuffer);
+    }
+
+
+
 
     for (int i = 0; i < zarray_size(quads); i++) {
         struct quad *quad;
@@ -1159,6 +1321,7 @@ void apriltag_duty()
 	//标签检测任务
     zarray_t *detections = apriltag_detector_detect(&td, im, tp);
     //位姿解算任务
+    /*
     for (int i = 0; i < zarray_size(detections); i++) {
         apriltag_detection_t *det;
         zarray_get(detections, i, &det);
@@ -1169,6 +1332,7 @@ void apriltag_duty()
         double err = estimate_tag_pose(&info, &pose);
         printf("err is %f", err);
     }
+    */
 
     apriltag_detections_destroy(detections);
 

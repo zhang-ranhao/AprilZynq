@@ -19,6 +19,7 @@
 /*				Include File Definitions						*/
 /* ------------------------------------------------------------ */
 #include "pl_vdma.h"
+#include "../common/state_machine/fsm_control.h"
 /* ------------------------------------------------------------ */
 /*				Miscellaneous Definations						*/
 /* ------------------------------------------------------------ */
@@ -42,12 +43,14 @@ XAxiVdma Vdma_1;
 static void ImageReadingControl (void *CallbackRef)
 {
 	/*Color image updating*/
-	wr_color_index = (XAxiVdma_ReadReg(XPAR_AXIVDMA_0_BASEADDR, XAXIVDMA_PARKPTR_OFFSET)
-			 	 	 & XAXIVDMA_PARKPTR_WRTSTR_MASK)
-					 >> XAXIVDMA_WRTSTR_SHIFT;
-	FrameBuffer.Address = (INTPTR)pcolor_buf[(wr_color_index+2)%3];
-	XDpDma_DisplayGfxFrameBuffer(RunCfg.DpDmaPtr, &FrameBuffer);
-
+	if (stFsm.stCurState == IDLE)
+	{
+		wr_color_index = (XAxiVdma_ReadReg(XPAR_AXIVDMA_0_BASEADDR, XAXIVDMA_PARKPTR_OFFSET)
+						 & XAXIVDMA_PARKPTR_WRTSTR_MASK)
+						 >> XAXIVDMA_WRTSTR_SHIFT;
+		FrameBuffer.Address = (INTPTR)pcolor_buf[(wr_color_index+2)%3];
+		XDpDma_DisplayGfxFrameBuffer(RunCfg.DpDmaPtr, &FrameBuffer);
+	}
 	/*Grayscale update*/
 	if (key1_flag == 1)
 	{

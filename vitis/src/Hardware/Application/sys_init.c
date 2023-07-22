@@ -18,6 +18,10 @@
 /*				Include File Definitions						*/
 /* ------------------------------------------------------------ */
 #include "sys_init.h"
+#include "../common/state_machine/fsm.h"
+#include "../common/state_machine/fsm_control.h"
+#include "../../Software/apriltag/application/apriltag_quad_thresh.h"
+#include "../../Software/apriltag/application/apriltag.h"
 /* ------------------------------------------------------------ */
 /*				Miscellaneous Declarations						*/
 /* ------------------------------------------------------------ */
@@ -46,8 +50,12 @@ int sys_init(void) {
 	{
 		pcolor_buf[i] = color_buf[i];
 		pgray_buf[i] = gray_buf[i];
+
+		memset(color_buf[i], 1, FRAME_SIZE);
+		memset(gray_buf[i], 1, GRAY_FRAME_SIZE);
 	}
 
+	memset(simu_buf, 255, FRAME_SIZE);
 
 	/*Initialization of the GIC Controller*/
 	Status = gic_init();
@@ -152,6 +160,9 @@ int sys_init(void) {
 		xil_printf("sd_mount Failed\r\n");
 		return XST_FAILURE;
 	}
+
+	/*初始化状态机*/
+	fsm_control_init();
 
 	Xil_DCacheEnable();
 	Xil_ICacheEnable();
