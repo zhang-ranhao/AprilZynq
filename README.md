@@ -1,4 +1,5 @@
 # AprilZynq
+[toc]
 ## 1. 项目简述
 ### 1.1 项目名称
 基于Zynq UltraScale+ MPSoC的AprilTag算法加速器设计
@@ -12,3 +13,4 @@ c. 将AprilTag仿真调试图像输出到显示屏，来展示AprilTag标签是�
 a. 更换成像质量更好的摄像头，通过降低图像噪点来提升算法运行速度。  
 b. 在ZYNQ上的PS端，也就是ARM端上运行linux系统，通过双核ARM Cortex A53来实现多线程运算，提升算法运行速度。  
 c. 在ZYNQ中的PL端，也就是FPGA端完成AprilTag算法中的某些图像处理算法的IP核设计，达到并行的效果，以此来提升算法运行速度。 
+
