@@ -18,7 +18,11 @@ c. 在ZYNQ中的PL端，也就是FPGA端完成AprilTag算法中的某些图像�
 ## 2.1 硬件信息
 本项目所使用的硬件平台为黑金公司生产的AXU2CGB开发板，ZYNQ芯片的具体型号为：xczu2cg-sfvc784-1-e，摄像头为黑金公司生产的AN5641摄像头模块，图像传感器芯片为豪威科技公司生产的OV5640芯片，AN5641通过mipi协议将图像数据传输到开发板，开发板通过dp协议将图像数据传输到显示屏，硬件实物图如下图所示。  
 ![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E7%A1%AC%E4%BB%B6%E5%AE%9E%E7%89%A9%E5%9B%BE.png)
-
+## 2.2 Vivado部分  
+在Vivado文件夹中，提供了工程文件.xpr文件，由于该工程文件是在Vivado 2020.1版本下创建的，如果您使用是低版本的Vivado软件，则只能以只读方式打开.xpr文件，如果您使用的是高版本的Vivado软件，则需要更新IP核或者更换掉已经停产的IP核，如果可以正常打开，您在Block Design中将看到如下图所示的BD设计项目。  
+![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E7%A1%AC%E4%BB%B6%E5%AE%9E%E7%89%A9%E5%9B%BE.png)
+## 2.3 Vitis部分
+您需要
 
 
 
