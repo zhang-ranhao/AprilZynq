@@ -17,7 +17,7 @@ c. 在ZYNQ中的PL端，也就是FPGA端完成AprilTag算法中的某些图像�
 # 2. 使用说明
 ## 2.1 硬件信息
 本项目所使用的硬件平台为黑金公司生产的AXU2CGB开发板，ZYNQ芯片的具体型号为：xczu2cg-sfvc784-1-e，摄像头为黑金公司生产的AN5641摄像头模块，图像传感器芯片为豪威科技公司生产的OV5640芯片，AN5641通过mipi协议将图像数据传输到开发板，开发板通过dp协议将图像数据传输到显示屏，硬件实物图如下图所示。  
-![图片文字描述]( https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%A8%A1%E5%9E%8B%E5%9B%BE%E7%89%87.jpg )
+![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E7%A1%AC%E4%BB%B6%E5%AE%9E%E7%89%A9%E5%9B%BE.png)
 
 
 
