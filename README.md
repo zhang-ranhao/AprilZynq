@@ -34,7 +34,7 @@ c. 在ZYNQ中的PL端，也就是FPGA端完成AprilTag算法中的某些图像�
 在Vivado文件夹中，提供了工程文件.xpr文件，由于该工程文件是在Vivado 2020.1版本下创建的，如果您使用是低版本的Vivado软件，则只能以只读方式打开.xpr文件，如果您使用的是高版本的Vivado软件，则需要更新IP核或者更换掉已经停产的IP核，如果可以正常打开，您在Block Design中将看到如下图所示的BD设计项目，您需要自行进行综合，布局布线以及生成比特流文件等操作。  
 ![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/Vivado%20BD%E8%AE%BE%E8%AE%A1%E5%9B%BE.jpg)
 ## 2.3 Vitis软件部分
-您需要使用vitis文件夹中的.xsa文件来建立vitis工程，项目源代码放在src文件夹下，在创建好vitis工程后，您还需要进行一些设置，才能保证编译成功，具体操作教程将在未来七日内上传到B站。
+您需要使用vitis文件夹中的design_1_wrapper.xsa文件来建立vitis工程，项目源代码放在src文件夹下，在创建好vitis工程后，您还需要进行一些设置，才能保证编译成功，具体操作教程将在未来七日内上传到B站。
 
 
 
