@@ -20,7 +20,7 @@ c. 在ZYNQ中的PL端，也就是FPGA端完成AprilTag算法中的某些图像�
 ![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E7%A1%AC%E4%BB%B6%E5%AE%9E%E7%89%A9%E5%9B%BE.png)
 ## 2.2 Vivado部分  
 在Vivado文件夹中，提供了工程文件.xpr文件，由于该工程文件是在Vivado 2020.1版本下创建的，如果您使用是低版本的Vivado软件，则只能以只读方式打开.xpr文件，如果您使用的是高版本的Vivado软件，则需要更新IP核或者更换掉已经停产的IP核，如果可以正常打开，您在Block Design中将看到如下图所示的BD设计项目。  
-![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E7%A1%AC%E4%BB%B6%E5%AE%9E%E7%89%A9%E5%9B%BE.png)
+![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/Vivado%20BD%E8%AE%BE%E8%AE%A1%E5%9B%BE.bmp)
 ## 2.3 Vitis部分
 您需要
 
