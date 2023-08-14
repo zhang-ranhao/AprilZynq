@@ -1,0 +1,8 @@
+vhdl xil_defaultlib  \
+"../../../bd/design_1/ip/design_1_axi_vdma_0_0/sim/design_1_axi_vdma_0_0.vhd" \
+"../../../bd/design_1/ip/design_1_mipi_csi2_rx_subsyst_0_0/bd_0/ip/ip_1/sim/bd_d10d_r_sync_0.vhd" \
+"../../../bd/design_1/ip/design_1_proc_sys_reset_150M_0/sim/design_1_proc_sys_reset_150M_0.vhd" \
+"../../../bd/design_1/ip/design_1_v_rgb2ycrcb_0_0/sim/design_1_v_rgb2ycrcb_0_0.vhd" \
+"../../../bd/design_1/ip/design_1_axi_vdma_0_1/sim/design_1_axi_vdma_0_1.vhd" \
+
+nosort
