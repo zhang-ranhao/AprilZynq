@@ -12,7 +12,7 @@
 # 1. 项目简述
 ## 1.1 项目名称
 基于Zynq UltraScale+ MPSoC的AprilTag算法加速器设计  
-b站传送门：[基于ZYNQ的AprilTag视觉定位算法加速技术研究——飞驰像素团队](https://www.bilibili.com/video/BV1Hm4y1j76H)
+b站传送门：[基于ZYNQ的AprilTag视觉定位算法加速技术研究——飞驰像素团队]([https://www.bilibili.com/video/BV1Hm4y1j76H](https://pan.baidu.com/s/1rpGrG-xK3d_OWZn4oN3KbA?pwd=umx6))
 ## 1.2 项目背景
 本项目来源于本人研究生一年级所负责的项目：[陆空两栖可重构机器人“比翼鸟”](https://www.bilibili.com/video/BV1ch4y1E77Y)，机器人实物图如下图所示。  
 ![图片文字描述]( https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%A8%A1%E5%9E%8B%E5%9B%BE%E7%89%87.jpg )
