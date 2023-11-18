@@ -12,9 +12,9 @@
 # 1. 项目简述
 ## 1.1 项目名称
 基于Zynq UltraScale+ MPSoC的AprilTag算法加速器设计  
-b站传送门：[基于ZYNQ的AprilTag视觉定位算法加速技术研究——飞驰像素团队](https://www.bilibili.com/video/BV1Hm4y1j76H)
+b站传送门：[基于ZYNQ的AprilTag视觉定位算法加速技术研究——飞驰像素团队](https://pan.baidu.com/s/1F9494MlhsoMT4jrLgKMgSw?pwd=uhrl)
 ## 1.2 项目背景
-本项目来源于本人研究生一年级所负责的项目：[陆空两栖可重构机器人“比翼鸟”](https://www.bilibili.com/video/BV1ch4y1E77Y)，机器人实物图如下图所示。  
+本项目来源于本人研究生一年级所负责的项目：[陆空两栖可重构机器人“比翼鸟”](https://pan.baidu.com/s/1i5rdFPUtcTAc313ae5pl1Q?pwd=799f)，机器人实物图如下图所示。  
 ![图片文字描述]( https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E6%9C%BA%E5%99%A8%E4%BA%BA%E6%A8%A1%E5%9E%8B%E5%9B%BE%E7%89%87.jpg )
 在该项目中，为了完成两架无人机的自主对接，我们采用了[AprilTag](https://april.eecs.umich.edu/software/apriltag)视觉基准系统和[OpenMV4](https://openmv.io/)摄像头模块来搭建视觉定位系统，我们希望无人机在更高的高度下也能稳定识别到AprilTag标签，所以将摄像头分辨率从QQVGA(160×120)提高到VGA(640×480)，但此时视觉定位数据的刷新频率小于1Hz，无法满足无人机精确位置控制环所要求的数据更新频率。基于此，本项目旨在利用Zynq UltraScale+ MPSoC这一ARM+FPGA架构的硬件平台对该算法进行加速，以满足实时性要求。
 ## 1.3 目前工作进度
