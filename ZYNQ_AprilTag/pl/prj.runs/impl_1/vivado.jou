@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.1 (64-bit)
+# SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
+# IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+# Start of session at: Thu Nov 16 01:57:01 2023
+# Process ID: 32804
+# Current directory: C:/Users/zrh463259112/Desktop/AprilZynq/main_system/prj/project_1.runs/impl_1
+# Command line: vivado.exe -log top.vdi -applog -product Vivado -messageDb vivado.pb -mode batch -source top.tcl -notrace
+# Log file: C:/Users/zrh463259112/Desktop/AprilZynq/main_system/prj/project_1.runs/impl_1/top.vdi
+# Journal file: C:/Users/zrh463259112/Desktop/AprilZynq/main_system/prj/project_1.runs/impl_1\vivado.jou
+#-----------------------------------------------------------
+source top.tcl -notrace

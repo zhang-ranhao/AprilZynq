@@ -1,0 +1,16 @@
+#-----------------------------------------------------------
+# Vivado v2020.1 (64-bit)
+# SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
+# IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+# Start of session at: Thu Nov 16 02:01:38 2023
+# Process ID: 31452
+# Current directory: C:/Users/zrh463259112/Desktop/Apriltag_Zynq/pl
+# Command line: vivado.exe -gui_launcher_event rodinguilauncherevent32496 C:\Users\zrh463259112\Desktop\Apriltag_Zynq\pl\prj.xpr
+# Log file: C:/Users/zrh463259112/Desktop/Apriltag_Zynq/pl/vivado.log
+# Journal file: C:/Users/zrh463259112/Desktop/Apriltag_Zynq/pl\vivado.jou
+#-----------------------------------------------------------
+start_gui
+open_project C:/Users/zrh463259112/Desktop/Apriltag_Zynq/pl/prj.xpr
+update_compile_order -fileset sources_1
+set_property pfm_name {} [get_files -all {C:/Users/zrh463259112/Desktop/Apriltag_Zynq/pl/prj.srcs/sources_1/bd/design_1/design_1.bd}]
+write_hw_platform -fixed -include_bit -force -file C:/Users/zrh463259112/Desktop/Apriltag_Zynq/ps/xsa/top.xsa

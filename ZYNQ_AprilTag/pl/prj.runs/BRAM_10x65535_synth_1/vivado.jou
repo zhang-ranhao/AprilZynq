@@ -1,0 +1,12 @@
+#-----------------------------------------------------------
+# Vivado v2020.1 (64-bit)
+# SW Build 2902540 on Wed May 27 19:54:49 MDT 2020
+# IP Build 2902112 on Wed May 27 22:43:36 MDT 2020
+# Start of session at: Thu Nov 16 01:12:48 2023
+# Process ID: 17400
+# Current directory: C:/Users/zrh463259112/Desktop/AprilZynq/main_system/prj/project_1.runs/BRAM_10x65535_synth_1
+# Command line: vivado.exe -log BRAM_10x65535.vds -product Vivado -mode batch -messageDb vivado.pb -notrace -source BRAM_10x65535.tcl
+# Log file: C:/Users/zrh463259112/Desktop/AprilZynq/main_system/prj/project_1.runs/BRAM_10x65535_synth_1/BRAM_10x65535.vds
+# Journal file: C:/Users/zrh463259112/Desktop/AprilZynq/main_system/prj/project_1.runs/BRAM_10x65535_synth_1\vivado.jou
+#-----------------------------------------------------------
+source BRAM_10x65535.tcl -notrace

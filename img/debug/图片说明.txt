@@ -1,8 +1,0 @@
-im_orig.jpg              	原始灰度图像 1280×720分辨率
-preprocess.jpg        		经过预处理过后的灰度图像，对原始灰度图像进行了降低分辨率以及滤波处理 640×360分辨率
-theshim.jpg         		自适应阈值分割图像，灰色为对比度不高的区域
-segmentation.bmp		使用union-find进行连通域查找，黑色为对比度不高的区域，同一种颜色的像素点位于同一个连通域
-clusters.bmp		边缘提取过后的图像，同一种颜色为边缘，黑色为对比度不高的区域
-quads_raw.jpg                         四边形提取图像
-quads_fixed.jpg		对四边形边缘进行边缘细化
-output.bmp                            	最终识别到的AprilTag标签          
