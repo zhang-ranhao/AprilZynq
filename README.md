@@ -18,11 +18,11 @@ b站传送门：[基于ZYNQ的AprilTag视觉定位算法加速技术研究——
 ![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E6%9C%BA%E5%99%A8%E4%BA%BA%E5%AE%9E%E7%89%A9%E5%9B%BE.png)
 在该项目中，为了完成两架无人机的自主对接，我们采用了[AprilTag](https://april.eecs.umich.edu/software/apriltag)视觉基准系统和[OpenMV4](https://openmv.io/)摄像头模块来搭建视觉定位系统，我们希望无人机在更高的高度下也能稳定识别到AprilTag标签，所以将摄像头分辨率从QQVGA(160×120)提高到VGA(640×480)，但此时视觉定位数据的刷新频率小于1Hz，无法满足无人机精确位置控制环所要求的数据更新频率。基于此，本项目旨在利用Zynq UltraScale+ MPSoC这一ARM+FPGA架构的硬件平台对该算法进行加速，以满足实时性要求。
 ## 1.3 目前工作进度
-a. 已搭建好基于的ZYNQ的图像采集与处理系统，实现对来自OV5640摄像头的视频图像的实时采集、存储、预处理与显示，如下图框图所示。  
+（1）已搭建好基于的ZYNQ的图像采集与处理系统，实现对来自OV5640摄像头的视频图像的实时采集、存储、预处理与显示，如下图框图所示。  
 ![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E7%B3%BB%E7%BB%9F%E6%95%B0%E6%8D%AE%E6%B5%81%E6%A1%86%E5%9B%BE.png)
-b. 将在Linux运行环境下的AprilTag视觉定位算法移植到ZYNQ上的单核ARM Cortex A53中，操作系统选择裸机，并对其进行优化和裁剪。  
-c. 将AprilTag仿真调试图像输出到显示屏，来展示AprilTag标签是如何被一步步识别到并输出定位信息的，包括自适应阈值分割、Union-Find联通域查找、边缘分割、PCA主成分分析、四边形匹配、边缘细化、解码、单应矩阵计算以及外参估计等流程，[演示视频](https://www.bilibili.com/video/BV1Hm4y1j76H)已上传到B站，欢迎观看。
-d. 将仿真图片通过FatFs文件系统写入sd卡中，实例图像放在img文件夹下的debug文件夹中，图片的说明参考“图片说明.txt”文件。
+（2）将在Linux运行环境下的AprilTag视觉定位算法移植到ZYNQ上的单核ARM Cortex A53中，操作系统选择裸机，并对其进行优化和裁剪。  
+（3）将AprilTag仿真调试图像输出到显示屏，来展示AprilTag标签是如何被一步步识别到并输出定位信息的，包括自适应阈值分割、Union-Find联通域查找、边缘分割、PCA主成分分析、四边形匹配、边缘细化、解码、单应矩阵计算以及外参估计等流程，[演示视频](https://www.bilibili.com/video/BV1Hm4y1j76H)已上传到B站，欢迎观看。
+（4）将仿真图片通过FatFs文件系统写入sd卡中，实例图像放在img文件夹下的debug文件夹中，图片的说明参考“图片说明.txt”文件。
 ## 1.4 未来工作计划
 a. 更换成像质量更好的摄像头，通过降低图像噪点，减少本不该有的连通域，来提升算法的速度  
 b. 在ZYNQ上的PS端，也就是ARM端上运行linux系统，通过双核ARM Cortex A53来现多线程运算。  
