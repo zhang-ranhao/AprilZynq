@@ -32,7 +32,7 @@ b站传送门：[基于ZYNQ的AprilTag视觉定位算法加速技术研究——
 ![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E4%BD%9C%E5%93%81%E5%85%A8%E8%B2%8C%E5%9B%BE.png)
 ## 2.2 Vivado软件部分  
 Vivado部分位于pl文件夹下，其中降采样、高斯模糊、自适应阈值分割的文件名称分别为De_Resolution,GaussBlur,Th_Seg，而连通域查找的代码文件位于uf文件夹下，暂时未接入系统中
-![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/Vivado%20BD%E8%AE%BE%E8%AE%A1%E5%9B%BE.jpg)
+![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/FPGA%E9%A1%B9%E7%9B%AE%E6%A1%86%E5%9B%BE.bmp)
 ## 2.3 Vitis软件部分
 您需要使用ps文件下的top.xsa文件来建立vitis工程，项目源代码放在src文件夹下，在创建好vitis工程后，您还需要进行一些设置，才能保证编译成功，[操作教程](https://www.bilibili.com/video/BV1394y1i7DR)已上传到B站，欢迎观看。
 
