@@ -28,13 +28,13 @@ b站传送门：[基于ZYNQ的AprilTag视觉定位算法加速技术研究——
 （2）为使系统具有更好的扩展性和可移植性，尝试将PS端的裸机系统更换为Linux操作系统。
 # 2. 使用说明
 ## 2.1 硬件信息
-本项目所使用的硬件平台为黑金公司生产的AXU2CGB开发板，ZYNQ芯片的具体型号为：xczu2cg-sfvc784-1-e，摄像头为黑金公司生产的AN5641摄像头模块，图像传感器芯片为豪威科技公司生产的OV5640芯片，AN5641通过mipi协议将图像数据传输到开发板，开发板通过dp协议将图像数据传输到显示屏，硬件实物图如下图所示。  
+本项目所使用的硬件平台为黑金公司生产的AXU2CGB开发板，ZYNQ芯片的具体型号为：xczu2cg-sfvc784-1-e，摄像头为黑金公司生产的AN5641摄像头模块，图像传感器芯片为豪威科技公司生产的OV5640芯片，AN5641通过mipi协议将图像数据传输到开发板，开发板通过DP协议将图像数据传输到显示屏，硬件实物图如下图所示。  
 ![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/%E4%BD%9C%E5%93%81%E5%85%A8%E8%B2%8C%E5%9B%BE.png)
 ## 2.2 Vivado软件部分  
-在Vivado文件夹中，提供了工程文件.xpr文件，由于该工程文件是在Vivado 2020.1版本下创建的，如果您使用是低版本的Vivado软件，则只能以只读方式打开.xpr文件，如果您使用的是高版本的Vivado软件，则需要更新IP核或者更换掉已经停产的IP核，如果可以正常打开，您在Block Design中将看到如下图所示的BD设计项目，您需要自行进行综合，布局布线以及生成比特流文件等操作。  
+Vivado部分位于pl文件夹下，其中降采样、高斯模糊、自适应阈值分割的文件名称分别为De_Resolution,GaussBlur,Th_Seg，而连通域查找的代码文件位于uf文件夹下，暂时未接入系统中
 ![图片文字描述](https://github.com/zhang-ranhao/AprilZynq/blob/master/img/Vivado%20BD%E8%AE%BE%E8%AE%A1%E5%9B%BE.jpg)
 ## 2.3 Vitis软件部分
-您需要使用vitis文件夹中的design_1_wrapper.xsa文件来建立vitis工程，项目源代码放在src文件夹下，在创建好vitis工程后，您还需要进行一些设置，才能保证编译成功，[操作教程](https://www.bilibili.com/video/BV1394y1i7DR)已上传到B站，欢迎观看
+您需要使用ps文件下的top.xsa文件来建立vitis工程，项目源代码放在src文件夹下，在创建好vitis工程后，您还需要进行一些设置，才能保证编译成功，[操作教程](https://www.bilibili.com/video/BV1394y1i7DR)已上传到B站，欢迎观看。
 
 
 
